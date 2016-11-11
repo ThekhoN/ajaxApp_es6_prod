@@ -6,6 +6,7 @@ var fastdom = require('fastdom');
 import userAgentCheck_nonPromise from './modules/userAgentCheck_nonPromise';
 import domQuery_getIds_updateContainers from './modules/domQuery_getIds_updateContainers';
 import Use_firstResponseData from './modules/Use_firstResponseData';
+import SocialShare_page from './modules/SocialShare_page';
 
 //console.log('createHTML_by_categoryNames: ', createHTML_by_categoryNames);
 //global vars - expose these
