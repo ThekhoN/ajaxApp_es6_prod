@@ -7,7 +7,6 @@
   <title>Document</title>
   <link rel="stylesheet" href="stylesheets/screen.css">
 
-
 <script>
   // required for Internet Explorer
   (function() {
@@ -55,7 +54,7 @@
         <div class="sectionX " id="onClickFilter_ScrollTo">
             <div class="innerCard_sectionXWrap whiteBgX99 borderRounded4px ">
               <!--captionWrapper-->
-              <div class="captionWrapper_new gradient_orangeToRed hasTimerX99" >
+              <div class="captionWrapper_new gradient_orangeToRed hasTimerX99" id="CaptionTimerWrapper" >
                 <h3>
                   <span class="captionSpanX99 hideX99" id="captionTimerX99_text99" >
                     Super Deals of the Hour
@@ -290,6 +289,14 @@
 
 </div>
 
+<style>
+
+#CaptionTimerWrapper {
+  display: none;
+}
+
+</style>
+
 <!-- fastdom-promised -->
 <script>
   !function(){function b(a,b,c,d){var g,e=a._tasks,f=a.fastdom,h=new Promise(function(a,i){g=f[b](function(){e.delete(h);try{a(d?c.call(d):c())}catch(a){i(a)}},d)});return e.set(h,g),h}var a={initialize:function(){this._tasks=new Map},mutate:function(a,c){return b(this,"mutate",a,c)},measure:function(a,c){return b(this,"measure",a,c)},clear:function(a){var b=this._tasks,c=b.get(a);this.fastdom.clear(c),b.delete(c)}};"f"==(typeof define)[0]?define(function(){return a}):"o"==(typeof module)[0]?module.exports=a:window.fastdomPromised=a}();
@@ -309,6 +316,21 @@
   });
 
   _AjaxApp.init();
+
+
+  /*
+  TimerX99
+  dateFormat:
+  12/13/2016 16:59:00
+  MM/DD/YYYY HH:MM:SS
+  */
+  var _TimerX99 = new TimerX99({
+    ID: 'liveTimerOffer_01_timer',
+    startTime: '11/11/2016 18:19:00',
+    endTime: '11/11/2016 18:59:00',
+    callback: function(){var CaptionTimerWrapper = document.getElementById('CaptionTimerWrapper'); CaptionTimerWrapper.style.display = 'block'; }
+  });
+  _TimerX99.init();
 
 </script>
 
