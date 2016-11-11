@@ -23,6 +23,7 @@
     "es6-promise": "^4.0.5",
     "fastdom": "^1.0.5",
     "uglify-js": "^2.7.4",
-    "webpack": "^1.13.3"
+    "webpack": "^1.13.3",
+    "webpack-dev-server": "^1.16.2"
   }
 }
