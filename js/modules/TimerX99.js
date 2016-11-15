@@ -64,22 +64,18 @@ var TimerX99 = function () {
         function RunningTimer() {
           updateClock();
           var timeInterval = setInterval(updateClock, 1000);
-        }
-        function updateClock() {
-          var t = getRemainingTime(endTime);
-          dayV_Wrap.innerHTML = ('0' + t.days).slice(-2);
-          hrV_Wrap.innerHTML = ('0' + t.hours).slice(-2);
-          minV_Wrap.innerHTML = ('0' + t.minutes).slice(-2);
-          secV_Wrap.innerHTML = ('0' + t.seconds).slice(-2);
-          if (t.total <= 0) {
-            clearInterval(timeInterval);
-            if (timerDomEle) {
-              console.log('clearInterval TimerX99');
-              timerDomEle.style.display = 'none';
-            } else {
-              console.log('ID not found in DOM!');
+
+          function updateClock() {
+            var t = getRemainingTime(endTime);
+            dayV_Wrap.innerHTML = ('0' + t.days).slice(-2);
+            hrV_Wrap.innerHTML = ('0' + t.hours).slice(-2);
+            minV_Wrap.innerHTML = ('0' + t.minutes).slice(-2);
+            secV_Wrap.innerHTML = ('0' + t.seconds).slice(-2);
+            if (t.total <= 0) {
+              clearInterval(timeInterval);
+              console.log('timer was completed. . .');
+              window.location.reload(true);
             }
-            window.location.reload(true);
           }
         }
       }
