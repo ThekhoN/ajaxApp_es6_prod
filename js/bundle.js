@@ -72,7 +72,7 @@
 
 	var _SocialShare_page2 = _interopRequireDefault(_SocialShare_page);
 
-	var _TimerX = __webpack_require__(42);
+	var _TimerX = __webpack_require__(39);
 
 	var _TimerX2 = _interopRequireDefault(_TimerX);
 
@@ -81,9 +81,9 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	//polyfill es6-promise
-	__webpack_require__(39).polyfill();
+	__webpack_require__(40).polyfill();
 
-	var fastdom = __webpack_require__(41);
+	var fastdom = __webpack_require__(42);
 
 	//expose
 	window.TimerX99 = _TimerX2.default;
@@ -93,7 +93,7 @@
 	var nonPromise = (0, _userAgentCheck_nonPromise2.default)();
 	//const nonPromise = false;
 	//console.log('nonPromise - :', nonPromise);
-	var showSoldOut_g = false;
+	var showSoldOut_g = void 0;
 	var finalHTML = [];
 	var dataForRender = [];
 	var dom_categoryNames = [];
@@ -117,12 +117,15 @@
 	    this.parentWrapper_id = options.parentWrapper_id ? options.parentWrapper_id : 'mainWrapperX_newX999';
 	    this.timerOfferUnits = options.timerOfferUnits ? options.timerOfferUnits : false;
 	    this.showDiscount = options.showDiscount ? options.showDiscount : false;
+	    this.showSoldOut_g = options.showSoldOut_g ? options.showSoldOut_g : false;
 	  }
 
 	  _createClass(AjaxPageApp, [{
 	    key: 'init',
 	    value: function init() {
 	      (0, _domQuery_getIds_updateContainers2.default)('offers_WrapperX99', dom_categoryNames, dataForRender, finalHTML);
+	      showSoldOut_g = this.showSoldOut_g;
+
 	      var O_O = {
 	        firstResponseData: firstResponseData,
 	        dom_categoryNames: dom_categoryNames,
@@ -136,6 +139,8 @@
 	        dataLen: dataLen,
 	        Url_secondReq: Url_secondReq
 	      };
+
+	      console.log('showSoldOut_g: ', showSoldOut_g);
 
 	      //XHR_req(this.url,function(data){Use_firstResponseData(data, O_O);});
 	      if (nonPromise) {
@@ -1888,7 +1893,7 @@
 	var isUCBrowser = navigator.userAgent.indexOf('UCBrowser') > 0;
 
 	var userAgentCheck_nonPromise = function userAgentCheck_nonPromise() {
-	    if (isUCBrowser) {
+	    if (isUCBrowser || navigator.userAgent.indexOf('MSIE') > 0) {
 	        console.log('y u not support promises O_o');
 	        return true;
 	    } else {
@@ -2230,27 +2235,16 @@
 	  }
 
 	  function setHTML_offerUnit_offerImageOnly(item) {
-
 	    if (!item.offerName || item.offerName === null) {
 	      item.offerName = '';
 	    }
-
 	    var sdPlusLogo = '<div class="offerUnit_sdPlusWrap_abs"></div>';
 	    var blazy_img = '<img class="offerUnit_img OfferImg b-lazy" data-src="' + item.offerImageUrl + '" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="' + item.offerName + '" />';
-	    var nonLazy_img = '<img class="offerUnit_img nonLazyX99 OfferImg"' + 'src="' + item.offerImageUrl + '" ' + 'alt="' + item.offerName + '" />';
 
-	    if (nonPromise === true) {
-	      if (item.sdGold === true) {
-	        return '<div class="offerUnit_imgWrap_sdPlusInc_rel">' + sdPlusLogo + nonLazy_img + '</div>';
-	      } else {
-	        return '<div class="offerUnit_imgWrap_sdPlusInc_rel">' + nonLazy_img + '</div>';
-	      }
+	    if (item.sdGold === true) {
+	      return '<div class="offerUnit_imgWrap_sdPlusInc_rel">' + sdPlusLogo + blazy_img + '</div>';
 	    } else {
-	      if (item.sdGold === true) {
-	        return '<div class="offerUnit_imgWrap_sdPlusInc_rel">' + sdPlusLogo + blazy_img + '</div>';
-	      } else {
-	        return '<div class="offerUnit_imgWrap_sdPlusInc_rel">' + blazy_img + '</div>';
-	      }
+	      return '<div class="offerUnit_imgWrap_sdPlusInc_rel">' + blazy_img + '</div>';
 	    }
 	  }
 
@@ -2263,17 +2257,14 @@
 	  }
 
 	  function set_SoldOUt_ModuleX99_mod(item) {
+	    //console.log('set_SoldOUt_ModuleX99_mod running ....');
+
 	    var soldOut_Wrap = '<div class="offerUnit_Soldout"><div class="offerUnit_Soldout_btn">SOLD OUT</div></div>';
 	    var soldOut_Wrap_displayOn = '<div class="offerUnit_Soldout" style="display: block;"><div class="offerUnit_Soldout_btn">SOLD OUT</div></div>';
 	    if (item.pogId) {
-
 	      if (nonPromise === true) {
 	        if (item.soldOut === true) {
-	          console.log('soldOut item.pogId: ', item.pogId);
-	          var id_parent_offerUnit = item.pogId;
-	          var dom_id_parent_offerUnit = document.getElementById(id_parent_offerUnit);
-	          //console.log('dom_id_parent_offerUnit: ', dom_id_parent_offerUnit);
-
+	          //console.log('soldOut item.pogId: ', item.pogId);
 	          if (showSoldOut_g === true) {
 	            return soldOut_Wrap_displayOn;
 	          } else {
@@ -2331,7 +2322,6 @@
 
 	    function priceOrTagline_dom(item) {
 	      if (!item.pogId) {
-	        //console.log('pogId not defined!');
 	        if (item.tagLine) {
 	          return offerUnit_priceTaglineWrap_rel + tagLineFragments + '</div>';
 	        } else {
@@ -2376,8 +2366,6 @@
 	  }
 
 	  function setHTML_offerUnit_ratingWrap(item) {
-	    //console.log('setHTML_offerUnit_ratingWrap running!');
-	    //console.log('item: ', item);
 	    var ifRatingDefined_dom_V = ifRatingDefined_dom(item);
 	    var setRating_V = setRating(item);
 	    var rating_Wrap = '<div class="offerUnit_ratingWrap">';
@@ -2386,7 +2374,6 @@
 
 	    function ifRatingDefined_dom(item) {
 	      if (item.avgRating) {
-	        //console.log('item.avgRating: ', item.avgRating);
 	        if (item._noOfReviews) {
 	          ratingFragments += reviewsFragments;
 	        }
@@ -2423,7 +2410,6 @@
 	  }
 
 	  function setHTML_wrap_saveAmt(item) {
-	    //console.log('item: ', item);
 	    var wrap_saveAmt = '<div class="wrap_saveAmt">';
 	    var wrap_saveAmt_closing = '</div>';
 	    if (item.displayPrice < item.price) {
@@ -2442,6 +2428,7 @@
 	    return '</div>';
 	  }
 
+	  // +++++ setHTML ~ helper fns +++++ //
 	  function setClassName_categoryName(item) {
 	    if (item.categoryName) {
 	      return item.categoryName;
@@ -2459,13 +2446,10 @@
 	  }
 
 	  function setID_pogId(item) {
-	    //console.log('setID_pogId running');
 	    if (item.pogId === null || !item.pogId) {
-	      //console.log('pogId not found, do not run setID_pogId!');
+
 	      return '';
 	    } else if (item.pogId) {
-	      //console.log('running setID_pogId');
-	      //console.log('item.pogId: ', item.pogId);
 	      return 'id="' + item.pogId + '"';
 	    } else {
 	      return '';
@@ -2473,13 +2457,11 @@
 	  }
 
 	  function set_Rs_Price(item) {
-	    //console.log('set_Rs_Price running!');
 	    if (!item) {
 	      return '';
 	    }
 	    if (item.price) {
-	      //console.log('item.price: ', item.price);
-	      if (item.price === 'null') {
+	      if (item.price === 'null' || item.price == item.displayPrice) {
 	        console.log(item.pogId, ': has price as null');
 	        return '';
 	      }
@@ -2490,8 +2472,25 @@
 	    }
 	  }
 
+	  function check_showPrice(item) {
+	    var price = void 0,
+	        displayPrice = void 0,
+	        content = '';
+	    if (!item || !item.pogId) {
+	      content = '';
+	    } else {
+	      price = item.price;
+	      displayPrice = item.displayPrice;
+	      if (price == displayPrice || displayPrice > price || !price) {
+	        content = '';
+	      } else {
+	        content = 'Rs. ' + displayPrice;
+	      }
+	    }
+	    return content;
+	  }
+
 	  function set_Rs_displayPrice(item) {
-	    //console.log('set_Rs_displayPrice running!');
 	    if (!item) {
 	      return '';
 	    }
@@ -2500,12 +2499,12 @@
 	        console.log(item.pogId, ': has price as null');
 	        return '';
 	      }
-
 	      return 'Rs. ' + item.displayPrice;
 	    } else {
 	      return '';
 	    }
 	  }
+	  // +++++ /setHTML ~ helper fns +++++ //
 
 	  // +++++ setHTMLContent_promises +++++ //
 
@@ -2532,11 +2531,6 @@
 	    //functions
 	    var price_html = set_Rs_Price(item);
 	    var displayPrice_html = set_Rs_displayPrice(item);
-
-	    //console.log('item.price: ', item.price);
-	    //console.log('item.displayPrice: ', item.price);
-	    //console.log('dom_offerUnit_price: ', dom_offerUnit_price);
-
 
 	    setHTML_fastdom(dom_offerUnit_price, price_html);
 	    setHTML_fastdom(dom_offerUnit_displayPrice, displayPrice_html);
@@ -2668,7 +2662,7 @@
 
 	  //ignore JSHint Error
 	  function setHTMLContent_soldOut(DOM_append_target, item) {
-	    //console.log('showSoldOut_g inside setHTMLContent_soldOut: ', showSoldOut_g);
+
 	    var dom_offerUnit_Soldout = DOM_append_target.querySelector('.offerUnit_Soldout');
 	    var dom_offerUnit_href = DOM_append_target.querySelector('offerUnit_href');
 	    var id_parent_offerUnit = item.id;
@@ -3392,6 +3386,255 @@
 
 /***/ },
 /* 39 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () {
+	  function defineProperties(target, props) {
+	    for (var i = 0; i < props.length; i++) {
+	      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+	    }
+	  }return function (Constructor, protoProps, staticProps) {
+	    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+	  };
+	}();
+
+	function _classCallCheck(instance, Constructor) {
+	  if (!(instance instanceof Constructor)) {
+	    throw new TypeError("Cannot call a class as a function");
+	  }
+	}
+
+	var TimerX99 = function () {
+	  function TimerX99(opts) {
+	    _classCallCheck(this, TimerX99);
+
+	    if (!opts) {
+	      opts = {};
+	    }
+	    this.ID = opts.ID ? opts.ID : '';
+	    this.startTime = opts.startTime ? opts.startTime : '';
+	    this.endTime = opts.endTime ? opts.endTime : '';
+	    this.callback = opts.callback ? opts.callback : '';
+	  }
+
+	  _createClass(TimerX99, [{
+	    key: 'init',
+	    value: function init() {
+	      //validate options
+	      console.log('init TimerX99');
+	      this.ID = this.ID ? this.ID : log_UndefinedAndReturn('ID');
+	      this.startTime = this.startTime ? this.startTime : log_UndefinedAndReturn('startTime');
+	      this.endTime = this.endTime ? this.endTime : log_UndefinedAndReturn('endTime');
+	      this.callback = this.callback ? this.callback : log_UndefinedAndReturn('callback');
+	      if (!isValidDate(this.startTime)) {
+	        console.log('invalid startTime date format, it must be MM/DD/YYYY');
+	        return;
+	      }
+	      if (!isValidDate(this.endTime)) {
+	        console.log('invalid endTime date format, it must be MM/DD/YYYY');
+	        return;
+	      }
+
+	      //cache options
+	      var ID = this.ID;
+	      var dom_ID = document.getElementById(ID);
+	      if (!dom_ID) {
+	        console.log('TimerX99: element with ID not found');
+	        return;
+	      }
+	      var startTime = this.startTime;
+	      var endTime = this.endTime;
+	      var callback = this.callback;
+
+	      //CheckStartTimer
+	      CheckStartTimer(ID, startTime, endTime, callback);
+
+	      function StartTimer(ID, startTime, endTime, callback) {
+	        //dom queries
+	        var dom_ID = document.getElementById(ID);
+	        var dayV_Wrap = dom_ID.querySelector('.dayV_timerX');
+	        var hrV_Wrap = dom_ID.querySelector('.hrV_timerX');
+	        var minV_Wrap = dom_ID.querySelector('.minV_timerX');
+	        var secV_Wrap = dom_ID.querySelector('.secV_timerX');
+	        RunningTimer();
+	        function RunningTimer() {
+	          updateClock();
+	          var timeInterval = setInterval(updateClock, 1000);
+
+	          function updateClock() {
+	            var t = getRemainingTime(endTime);
+	            dayV_Wrap.innerHTML = ('0' + t.days).slice(-2);
+	            hrV_Wrap.innerHTML = ('0' + t.hours).slice(-2);
+	            minV_Wrap.innerHTML = ('0' + t.minutes).slice(-2);
+	            secV_Wrap.innerHTML = ('0' + t.seconds).slice(-2);
+	            if (t.total <= 0) {
+	              clearInterval(timeInterval);
+	              console.log('timer was completed. . .');
+	              window.location.reload(true);
+	            }
+	          }
+	        }
+	      }
+
+	      function CheckStartTimer(ID, startTime, endTime, callback) {
+	        var _startTime = startTime + ' GMT+0530';
+	        var _endTime = endTime + ' GMT+0530';
+	        var _startTime_ms = new Date(_startTime);
+	        var _endTime_ms = new Date(_endTime);
+	        var currTime_ms = new Date();
+	        if (_startTime_ms > _endTime_ms) {
+	          console.log('error in startDate, startDate is more than end Date');
+	        }
+	        if (_endTime_ms > currTime_ms && currTime_ms >= _startTime_ms) {
+	          StartTimer(ID, startTime, endTime, callback);
+	          if (callback) {
+	            if (!isFunction(callback)) {
+	              console.log('callback must be a function declaration like this:' + '\n' + 'function (){ //do something }');
+	              return;
+	            } else {
+	              console.log('running callback:');
+	              callback();
+	            }
+	          }
+	        }
+	      }
+
+	      function getRemainingTime(endTime) {
+	        var t = Date.parse(endTime) - Date.parse(new Date());
+	        var seconds = Math.floor(t / 1000 % 60);
+	        var minutes = Math.floor(t / 1000 / 60 % 60);
+	        var hours = Math.floor(t / (1000 * 60 * 60) % 24);
+	        var days = Math.floor(t / (1000 * 60 * 60 * 24));
+	        return {
+	          'total': t,
+	          'days': days,
+	          'hours': hours,
+	          'minutes': minutes,
+	          'seconds': seconds
+	        };
+	      }
+	    }
+	  }, {
+	    key: 'get_settings',
+	    value: function get_settings() {
+	      console.log('GET PROPS PLEASE: ');
+	      console.log('ID: ', this.ID);
+	      console.log('startTime: ', this.startTime);
+	      console.log('endTime: ', this.endTime);
+	      console.log('callback: ', this.callback);
+	      return {
+	        id: this.ID,
+	        startTime: this.startTime,
+	        endTime: this.endTime,
+	        callback: this.callback
+	      };
+	    }
+	  }]);
+
+	  return TimerX99;
+	}();
+
+	//global helper util fns
+
+
+	function log_UndefinedAndReturn(prop) {
+	  console.log(String(prop) + ' was not defined');
+	  if (prop == 'callback') {
+	    console.log('you can define a callback. . .');
+	  } else {
+	    return;
+	  }
+	}
+
+	function isFunction(functionToCheck) {
+	  var getType = {};
+	  return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+	}
+
+	function isValidDate(date) {
+	  var d = date;
+	  var i_fSpace = d.indexOf(' ');
+	  var data_str = d.substr(0, i_fSpace);
+	  var matches = /^(\d{1,2})[-\/](\d{1,2})[-\/](\d{4})$/.exec(data_str);
+	  if (matches === null) return false;
+	  var d_ = matches[2];
+	  var m = matches[1] - 1;
+	  var y = matches[3];
+	  var composedDate = new Date(y, m, d_);
+	  return composedDate.getDate() == d_ && composedDate.getMonth() == m && composedDate.getFullYear() == y;
+	}
+
+	function findParent_firstMatchClassName(el, className) {
+	  while (el.parentNode) {
+	    el = el.parentNode;
+	    if (el.className === className) return el;
+	  }
+	  return null;
+	}
+
+	function Init_liveTimerOffers(data, tag) {
+	  var liveTimerOffer_opts = get_liveTimerOffer_opts(data, tag);
+	  start_liveTimerOffer(liveTimerOffer_opts);
+
+	  function get_liveTimerOffer_opts(data, tag) {
+	    var liveTimerOffer_opts = [];
+	    data.forEach(function (offer, index) {
+	      if (offer.categoryName.indexOf(tag) > -1) {
+	        var startTimeHrs = ('0' + offer.startTimeHrs).slice(-2);
+	        var startTimeMin = ('0' + offer.startTimeMin).slice(-2);
+	        var endTimeHrs = ('0' + offer.endTimeHrs).slice(-2);
+	        var endTimeMin = ('0' + offer.endTimeMin).slice(-2);
+	        var startTime = getFullDate() + ' ' + startTimeHrs + ':' + startTimeMin + ':00';
+	        var endTime = getFullDate() + ' ' + endTimeHrs + ':' + endTimeMin + ':00';
+	        var timerOptions = {};
+	        timerOptions.categoryName = offer.categoryName;
+	        timerOptions.startTime = startTime;
+	        timerOptions.endTime = endTime;
+	        liveTimerOffer_opts.push(timerOptions);
+	      }
+	    });
+	    return liveTimerOffer_opts;
+	  }
+
+	  function start_liveTimerOffer(get_liveTimerOffer_opts) {
+	    get_liveTimerOffer_opts.forEach(function (timerObj, i) {
+	      var newTimerName = '';
+	      newTimerName = timerObj.categoryName + '_timer';
+	      var _newTimerName = newTimerName;
+	      newTimerName = new TimerX99({
+	        ID: newTimerName,
+	        startTime: timerObj.startTime,
+	        endTime: timerObj.endTime,
+	        callback: function callback() {
+	          console.log(_newTimerName + ' is running');
+	        }
+	      });
+	      newTimerName.init();
+	    });
+	  }
+
+	  function getFullDate() {
+	    var _d = new Date();
+	    var date_today = _d.getDate();
+	    date_today = ('0' + date_today).slice(-2);
+	    var month_today = _d.getMonth() + 1;
+	    month_today = ('0' + month_today).slice(-2);
+	    var year_today = _d.getFullYear();
+	    var today_mmddyyyy = month_today + '/' + date_today + '/' + year_today;
+	    return today_mmddyyyy;
+	  }
+	}
+
+	exports.default = TimerX99;
+
+/***/ },
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var require;/* WEBPACK VAR INJECTION */(function(process, global) {/*!
@@ -3530,7 +3773,7 @@
 	function attemptVertx() {
 	  try {
 	    var r = require;
-	    var vertx = __webpack_require__(40);
+	    var vertx = __webpack_require__(41);
 	    vertxNext = vertx.runOnLoop || vertx.runOnContext;
 	    return useVertxTimer();
 	  } catch (e) {
@@ -4554,13 +4797,13 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), (function() { return this; }())))
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports) {
 
 	/* (ignored) */
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;!(function(win) {
@@ -4806,259 +5049,6 @@
 
 	})( typeof window !== 'undefined' ? window : this);
 
-
-/***/ },
-/* 42 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () {
-	  function defineProperties(target, props) {
-	    for (var i = 0; i < props.length; i++) {
-	      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
-	    }
-	  }return function (Constructor, protoProps, staticProps) {
-	    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
-	  };
-	}();
-
-	function _classCallCheck(instance, Constructor) {
-	  if (!(instance instanceof Constructor)) {
-	    throw new TypeError("Cannot call a class as a function");
-	  }
-	}
-
-	var TimerX99 = function () {
-	  function TimerX99(opts) {
-	    _classCallCheck(this, TimerX99);
-
-	    if (!opts) {
-	      opts = {};
-	    }
-	    this.ID = opts.ID ? opts.ID : '';
-	    this.startTime = opts.startTime ? opts.startTime : '';
-	    this.endTime = opts.endTime ? opts.endTime : '';
-	    this.callback = opts.callback ? opts.callback : '';
-	  }
-
-	  _createClass(TimerX99, [{
-	    key: 'init',
-	    value: function init() {
-	      //validate options
-	      console.log('init TimerX99');
-	      this.ID = this.ID ? this.ID : log_UndefinedAndReturn('ID');
-	      this.startTime = this.startTime ? this.startTime : log_UndefinedAndReturn('startTime');
-	      this.endTime = this.endTime ? this.endTime : log_UndefinedAndReturn('endTime');
-	      this.callback = this.callback ? this.callback : log_UndefinedAndReturn('callback');
-	      if (!isValidDate(this.startTime)) {
-	        console.log('invalid startTime date format, it must be MM/DD/YYYY');
-	        return;
-	      }
-	      if (!isValidDate(this.endTime)) {
-	        console.log('invalid endTime date format, it must be MM/DD/YYYY');
-	        return;
-	      }
-
-	      //cache options
-	      var ID = this.ID;
-	      var dom_ID = document.getElementById(ID);
-	      if (!dom_ID) {
-	        console.log('TimerX99: element with ID not found');
-	        return;
-	      }
-	      var startTime = this.startTime;
-	      var endTime = this.endTime;
-	      var callback = this.callback;
-
-	      //CheckStartTimer
-	      CheckStartTimer(ID, startTime, endTime, callback);
-
-	      function StartTimer(ID, startTime, endTime, callback) {
-	        //dom queries
-	        var dom_ID = document.getElementById(ID);
-	        var dayV_Wrap = dom_ID.querySelector('.dayV_timerX');
-	        var hrV_Wrap = dom_ID.querySelector('.hrV_timerX');
-	        var minV_Wrap = dom_ID.querySelector('.minV_timerX');
-	        var secV_Wrap = dom_ID.querySelector('.secV_timerX');
-	        RunningTimer();
-	        function RunningTimer() {
-	          updateClock();
-	          var timeInterval = setInterval(updateClock, 1000);
-	        }
-	        function updateClock() {
-	          var t = getRemainingTime(endTime);
-	          dayV_Wrap.innerHTML = ('0' + t.days).slice(-2);
-	          hrV_Wrap.innerHTML = ('0' + t.hours).slice(-2);
-	          minV_Wrap.innerHTML = ('0' + t.minutes).slice(-2);
-	          secV_Wrap.innerHTML = ('0' + t.seconds).slice(-2);
-	          if (t.total <= 0) {
-	            clearInterval(timeInterval);
-	            if (timerDomEle) {
-	              console.log('clearInterval TimerX99');
-	              timerDomEle.style.display = 'none';
-	            } else {
-	              console.log('ID not found in DOM!');
-	            }
-	            window.location.reload(true);
-	          }
-	        }
-	      }
-
-	      function CheckStartTimer(ID, startTime, endTime, callback) {
-	        var _startTime = startTime + ' GMT+0530';
-	        var _endTime = endTime + ' GMT+0530';
-	        var _startTime_ms = new Date(_startTime);
-	        var _endTime_ms = new Date(_endTime);
-	        var currTime_ms = new Date();
-	        if (_startTime_ms > _endTime_ms) {
-	          console.log('error in startDate, startDate is more than end Date');
-	        }
-	        if (_endTime_ms > currTime_ms && currTime_ms >= _startTime_ms) {
-	          StartTimer(ID, startTime, endTime, callback);
-	          if (callback) {
-	            if (!isFunction(callback)) {
-	              console.log('callback must be a function declaration like this:' + '\n' + 'function (){ //do something }');
-	              return;
-	            } else {
-	              console.log('running callback:');
-	              callback();
-	            }
-	          }
-	        }
-	      }
-
-	      function getRemainingTime(endTime) {
-	        var t = Date.parse(endTime) - Date.parse(new Date());
-	        var seconds = Math.floor(t / 1000 % 60);
-	        var minutes = Math.floor(t / 1000 / 60 % 60);
-	        var hours = Math.floor(t / (1000 * 60 * 60) % 24);
-	        var days = Math.floor(t / (1000 * 60 * 60 * 24));
-	        return {
-	          'total': t,
-	          'days': days,
-	          'hours': hours,
-	          'minutes': minutes,
-	          'seconds': seconds
-	        };
-	      }
-	    }
-	  }, {
-	    key: 'get_settings',
-	    value: function get_settings() {
-	      console.log('GET PROPS PLEASE: ');
-	      console.log('ID: ', this.ID);
-	      console.log('startTime: ', this.startTime);
-	      console.log('endTime: ', this.endTime);
-	      console.log('callback: ', this.callback);
-	      return {
-	        id: this.ID,
-	        startTime: this.startTime,
-	        endTime: this.endTime,
-	        callback: this.callback
-	      };
-	    }
-	  }]);
-
-	  return TimerX99;
-	}();
-
-	//global helper util fns
-
-
-	function log_UndefinedAndReturn(prop) {
-	  console.log(String(prop) + ' was not defined');
-	  if (prop == 'callback') {
-	    console.log('you can define a callback. . .');
-	  } else {
-	    return;
-	  }
-	}
-
-	function isFunction(functionToCheck) {
-	  var getType = {};
-	  return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
-	}
-
-	function isValidDate(date) {
-	  var d = date;
-	  var i_fSpace = d.indexOf(' ');
-	  var data_str = d.substr(0, i_fSpace);
-	  var matches = /^(\d{1,2})[-\/](\d{1,2})[-\/](\d{4})$/.exec(data_str);
-	  if (matches === null) return false;
-	  var d_ = matches[2];
-	  var m = matches[1] - 1;
-	  var y = matches[3];
-	  var composedDate = new Date(y, m, d_);
-	  return composedDate.getDate() == d_ && composedDate.getMonth() == m && composedDate.getFullYear() == y;
-	}
-
-	function findParent_firstMatchClassName(el, className) {
-	  while (el.parentNode) {
-	    el = el.parentNode;
-	    if (el.className === className) return el;
-	  }
-	  return null;
-	}
-
-	function Init_liveTimerOffers(data, tag) {
-	  var liveTimerOffer_opts = get_liveTimerOffer_opts(data, tag);
-	  start_liveTimerOffer(liveTimerOffer_opts);
-
-	  function get_liveTimerOffer_opts(data, tag) {
-	    var liveTimerOffer_opts = [];
-	    data.forEach(function (offer, index) {
-	      if (offer.categoryName.indexOf(tag) > -1) {
-	        var startTimeHrs = ('0' + offer.startTimeHrs).slice(-2);
-	        var startTimeMin = ('0' + offer.startTimeMin).slice(-2);
-	        var endTimeHrs = ('0' + offer.endTimeHrs).slice(-2);
-	        var endTimeMin = ('0' + offer.endTimeMin).slice(-2);
-	        var startTime = getFullDate() + ' ' + startTimeHrs + ':' + startTimeMin + ':00';
-	        var endTime = getFullDate() + ' ' + endTimeHrs + ':' + endTimeMin + ':00';
-	        var timerOptions = {};
-	        timerOptions.categoryName = offer.categoryName;
-	        timerOptions.startTime = startTime;
-	        timerOptions.endTime = endTime;
-	        liveTimerOffer_opts.push(timerOptions);
-	      }
-	    });
-	    return liveTimerOffer_opts;
-	  }
-
-	  function start_liveTimerOffer(get_liveTimerOffer_opts) {
-	    get_liveTimerOffer_opts.forEach(function (timerObj, i) {
-	      var newTimerName = '';
-	      newTimerName = timerObj.categoryName + '_timer';
-	      var _newTimerName = newTimerName;
-	      newTimerName = new TimerX99({
-	        ID: newTimerName,
-	        startTime: timerObj.startTime,
-	        endTime: timerObj.endTime,
-	        callback: function callback() {
-	          console.log(_newTimerName + ' is running');
-	        }
-	      });
-	      newTimerName.init();
-	    });
-	  }
-
-	  function getFullDate() {
-	    var _d = new Date();
-	    var date_today = _d.getDate();
-	    date_today = ('0' + date_today).slice(-2);
-	    var month_today = _d.getMonth() + 1;
-	    month_today = ('0' + month_today).slice(-2);
-	    var year_today = _d.getFullYear();
-	    var today_mmddyyyy = month_today + '/' + date_today + '/' + year_today;
-	    return today_mmddyyyy;
-	  }
-	}
-
-	exports.default = TimerX99;
 
 /***/ }
 /******/ ]);

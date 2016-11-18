@@ -8,7 +8,7 @@ Object.defineProperty(exports, "__esModule", {
 var isUCBrowser = navigator.userAgent.indexOf('UCBrowser') > 0;
 
 var userAgentCheck_nonPromise = function userAgentCheck_nonPromise() {
-    if (isUCBrowser) {
+    if (isUCBrowser || navigator.userAgent.indexOf('MSIE') > 0) {
         console.log('y u not support promises O_o');
         return true;
     } else {

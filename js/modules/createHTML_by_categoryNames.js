@@ -168,27 +168,16 @@ var createHTML_by_categoryNames = function createHTML_by_categoryNames(O_O, data
   }
 
   function setHTML_offerUnit_offerImageOnly(item) {
-
     if (!item.offerName || item.offerName === null) {
       item.offerName = '';
     }
-
     var sdPlusLogo = '<div class="offerUnit_sdPlusWrap_abs"></div>';
     var blazy_img = '<img class="offerUnit_img OfferImg b-lazy" data-src="' + item.offerImageUrl + '" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="' + item.offerName + '" />';
-    var nonLazy_img = '<img class="offerUnit_img nonLazyX99 OfferImg"' + 'src="' + item.offerImageUrl + '" ' + 'alt="' + item.offerName + '" />';
 
-    if (nonPromise === true) {
-      if (item.sdGold === true) {
-        return '<div class="offerUnit_imgWrap_sdPlusInc_rel">' + sdPlusLogo + nonLazy_img + '</div>';
-      } else {
-        return '<div class="offerUnit_imgWrap_sdPlusInc_rel">' + nonLazy_img + '</div>';
-      }
+    if (item.sdGold === true) {
+      return '<div class="offerUnit_imgWrap_sdPlusInc_rel">' + sdPlusLogo + blazy_img + '</div>';
     } else {
-      if (item.sdGold === true) {
-        return '<div class="offerUnit_imgWrap_sdPlusInc_rel">' + sdPlusLogo + blazy_img + '</div>';
-      } else {
-        return '<div class="offerUnit_imgWrap_sdPlusInc_rel">' + blazy_img + '</div>';
-      }
+      return '<div class="offerUnit_imgWrap_sdPlusInc_rel">' + blazy_img + '</div>';
     }
   }
 
@@ -201,17 +190,14 @@ var createHTML_by_categoryNames = function createHTML_by_categoryNames(O_O, data
   }
 
   function set_SoldOUt_ModuleX99_mod(item) {
+    //console.log('set_SoldOUt_ModuleX99_mod running ....');
+
     var soldOut_Wrap = '<div class="offerUnit_Soldout"><div class="offerUnit_Soldout_btn">SOLD OUT</div></div>';
     var soldOut_Wrap_displayOn = '<div class="offerUnit_Soldout" style="display: block;"><div class="offerUnit_Soldout_btn">SOLD OUT</div></div>';
     if (item.pogId) {
-
       if (nonPromise === true) {
         if (item.soldOut === true) {
-          console.log('soldOut item.pogId: ', item.pogId);
-          var id_parent_offerUnit = item.pogId;
-          var dom_id_parent_offerUnit = document.getElementById(id_parent_offerUnit);
-          //console.log('dom_id_parent_offerUnit: ', dom_id_parent_offerUnit);
-
+          //console.log('soldOut item.pogId: ', item.pogId);
           if (showSoldOut_g === true) {
             return soldOut_Wrap_displayOn;
           } else {
@@ -269,7 +255,6 @@ var createHTML_by_categoryNames = function createHTML_by_categoryNames(O_O, data
 
     function priceOrTagline_dom(item) {
       if (!item.pogId) {
-        //console.log('pogId not defined!');
         if (item.tagLine) {
           return offerUnit_priceTaglineWrap_rel + tagLineFragments + '</div>';
         } else {
@@ -314,8 +299,6 @@ var createHTML_by_categoryNames = function createHTML_by_categoryNames(O_O, data
   }
 
   function setHTML_offerUnit_ratingWrap(item) {
-    //console.log('setHTML_offerUnit_ratingWrap running!');
-    //console.log('item: ', item);
     var ifRatingDefined_dom_V = ifRatingDefined_dom(item);
     var setRating_V = setRating(item);
     var rating_Wrap = '<div class="offerUnit_ratingWrap">';
@@ -324,7 +307,6 @@ var createHTML_by_categoryNames = function createHTML_by_categoryNames(O_O, data
 
     function ifRatingDefined_dom(item) {
       if (item.avgRating) {
-        //console.log('item.avgRating: ', item.avgRating);
         if (item._noOfReviews) {
           ratingFragments += reviewsFragments;
         }
@@ -361,7 +343,6 @@ var createHTML_by_categoryNames = function createHTML_by_categoryNames(O_O, data
   }
 
   function setHTML_wrap_saveAmt(item) {
-    //console.log('item: ', item);
     var wrap_saveAmt = '<div class="wrap_saveAmt">';
     var wrap_saveAmt_closing = '</div>';
     if (item.displayPrice < item.price) {
@@ -380,6 +361,7 @@ var createHTML_by_categoryNames = function createHTML_by_categoryNames(O_O, data
     return '</div>';
   }
 
+  // +++++ setHTML ~ helper fns +++++ //
   function setClassName_categoryName(item) {
     if (item.categoryName) {
       return item.categoryName;
@@ -397,13 +379,10 @@ var createHTML_by_categoryNames = function createHTML_by_categoryNames(O_O, data
   }
 
   function setID_pogId(item) {
-    //console.log('setID_pogId running');
     if (item.pogId === null || !item.pogId) {
-      //console.log('pogId not found, do not run setID_pogId!');
+
       return '';
     } else if (item.pogId) {
-      //console.log('running setID_pogId');
-      //console.log('item.pogId: ', item.pogId);
       return 'id="' + item.pogId + '"';
     } else {
       return '';
@@ -411,13 +390,11 @@ var createHTML_by_categoryNames = function createHTML_by_categoryNames(O_O, data
   }
 
   function set_Rs_Price(item) {
-    //console.log('set_Rs_Price running!');
     if (!item) {
       return '';
     }
     if (item.price) {
-      //console.log('item.price: ', item.price);
-      if (item.price === 'null') {
+      if (item.price === 'null' || item.price == item.displayPrice) {
         console.log(item.pogId, ': has price as null');
         return '';
       }
@@ -428,8 +405,25 @@ var createHTML_by_categoryNames = function createHTML_by_categoryNames(O_O, data
     }
   }
 
+  function check_showPrice(item) {
+    var price = void 0,
+        displayPrice = void 0,
+        content = '';
+    if (!item || !item.pogId) {
+      content = '';
+    } else {
+      price = item.price;
+      displayPrice = item.displayPrice;
+      if (price == displayPrice || displayPrice > price || !price) {
+        content = '';
+      } else {
+        content = 'Rs. ' + displayPrice;
+      }
+    }
+    return content;
+  }
+
   function set_Rs_displayPrice(item) {
-    //console.log('set_Rs_displayPrice running!');
     if (!item) {
       return '';
     }
@@ -438,12 +432,12 @@ var createHTML_by_categoryNames = function createHTML_by_categoryNames(O_O, data
         console.log(item.pogId, ': has price as null');
         return '';
       }
-
       return 'Rs. ' + item.displayPrice;
     } else {
       return '';
     }
   }
+  // +++++ /setHTML ~ helper fns +++++ //
 
   // +++++ setHTMLContent_promises +++++ //
 
@@ -470,11 +464,6 @@ var createHTML_by_categoryNames = function createHTML_by_categoryNames(O_O, data
     //functions
     var price_html = set_Rs_Price(item);
     var displayPrice_html = set_Rs_displayPrice(item);
-
-    //console.log('item.price: ', item.price);
-    //console.log('item.displayPrice: ', item.price);
-    //console.log('dom_offerUnit_price: ', dom_offerUnit_price);
-
 
     setHTML_fastdom(dom_offerUnit_price, price_html);
     setHTML_fastdom(dom_offerUnit_displayPrice, displayPrice_html);
@@ -606,7 +595,7 @@ var createHTML_by_categoryNames = function createHTML_by_categoryNames(O_O, data
 
   //ignore JSHint Error
   function setHTMLContent_soldOut(DOM_append_target, item) {
-    //console.log('showSoldOut_g inside setHTMLContent_soldOut: ', showSoldOut_g);
+
     var dom_offerUnit_Soldout = DOM_append_target.querySelector('.offerUnit_Soldout');
     var dom_offerUnit_href = DOM_append_target.querySelector('offerUnit_href');
     var id_parent_offerUnit = item.id;

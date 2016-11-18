@@ -50,15 +50,13 @@
           </div>
         </div>
 
+
         <!--Super Deals-->
         <div class="sectionX " id="onClickFilter_ScrollTo">
             <div class="innerCard_sectionXWrap whiteBgX99 borderRounded4px ">
               <!--captionWrapper-->
               <div class="captionWrapper_new gradient_orangeToRed hasTimerX99" id="CaptionTimerWrapper" >
                 <h3>
-                  <span class="captionSpanX99 hideX99" id="captionTimerX99_text99" >
-                    Super Deals of the Hour
-                  </span>
                   <span class="captionSpanX99" id="featuredDeals_text99">Featured Deals</span>
                 </h3>
 
@@ -230,13 +228,6 @@
             </div>
           </div>
 
-      <!--cashify-->
-      <div class="sectionX noMarginX99_bot" >
-          <div class="innerCard_sectionXWrap whiteBgX99 borderRounded4px  ">
-            <!--add offers_WrapperX99-->
-            <ul id="singleExChangeBannerX99" class="offers_WrapperX99 footerBannerX99_Wrapper fullWidth_itemsX99"></ul>
-          </div>
-      </div>
 
         <!--shareX99_wrapper-->
         <div class="sectionX overFlowVisX99 ">
@@ -312,7 +303,8 @@
   //var url = (window.admin && window.admin == 'true' ? '/admin' : '') + '/get/offers/jsonList/' + mktName.value;
 
   var _AjaxApp = new AjaxPageApp ({
-    url:url
+    url:url,
+    showSoldOut_g: false
   });
 
   _AjaxApp.init();
@@ -327,7 +319,7 @@
   var _TimerX99 = new TimerX99({
     ID: 'liveTimerOffer_01_timer',
     startTime: '11/11/2016 18:19:00',
-    endTime: '11/11/2016 18:59:00',
+    endTime: '12/12/2016 18:59:00',
     callback: function(){var CaptionTimerWrapper = document.getElementById('CaptionTimerWrapper'); CaptionTimerWrapper.style.display = 'block'; }
   });
   _TimerX99.init();

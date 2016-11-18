@@ -16,7 +16,7 @@ window.TimerX99 = TimerX99;
 const nonPromise = userAgentCheck_nonPromise();
 //const nonPromise = false;
 //console.log('nonPromise - :', nonPromise);
-const showSoldOut_g = false;
+let showSoldOut_g;
 const finalHTML = [];
 const dataForRender = [];
 const dom_categoryNames = [];
@@ -38,10 +38,13 @@ class AjaxPageApp {
     this.parentWrapper_id = options.parentWrapper_id?options.parentWrapper_id:'mainWrapperX_newX999';
     this.timerOfferUnits = options.timerOfferUnits?options.timerOfferUnits: false;
     this.showDiscount = options.showDiscount?options.showDiscount: false;
+    this.showSoldOut_g = options.showSoldOut_g? options.showSoldOut_g: false;
   }
 
   init(){
     domQuery_getIds_updateContainers('offers_WrapperX99', dom_categoryNames, dataForRender, finalHTML);
+    showSoldOut_g = this.showSoldOut_g;
+
     const O_O = {
       firstResponseData,
       dom_categoryNames,
@@ -55,6 +58,8 @@ class AjaxPageApp {
       dataLen,
       Url_secondReq
     };
+
+    console.log('showSoldOut_g: ', showSoldOut_g);
 
     //XHR_req(this.url,function(data){Use_firstResponseData(data, O_O);});
     if(nonPromise){

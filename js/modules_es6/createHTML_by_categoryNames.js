@@ -171,32 +171,17 @@ const createHTML_by_categoryNames = (O_O, dataForRender) => {
   }
 
   function setHTML_offerUnit_offerImageOnly(item) {
-
       if (!item.offerName || item.offerName === null) {
           item.offerName = '';
       }
-
       var sdPlusLogo = '<div class="offerUnit_sdPlusWrap_abs"></div>';
       var blazy_img = '<img class="offerUnit_img OfferImg b-lazy" data-src="' + item.offerImageUrl + '" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="' + item.offerName + '" />' ;
-      var nonLazy_img =  '<img class="offerUnit_img nonLazyX99 OfferImg"' +  'src="'+item.offerImageUrl +'" ' +  'alt="' + item.offerName + '" />';
 
-      if(nonPromise === true){
-        if(item.sdGold === true){
-          return ('<div class="offerUnit_imgWrap_sdPlusInc_rel">' + sdPlusLogo + nonLazy_img + '</div>');
-        }
-        else {
-          return ('<div class="offerUnit_imgWrap_sdPlusInc_rel">' + nonLazy_img + '</div>');
-        }
-
+      if(item.sdGold === true){
+        return ('<div class="offerUnit_imgWrap_sdPlusInc_rel">' + sdPlusLogo + blazy_img + '</div>');
       }
-
       else {
-        if(item.sdGold === true){
-          return ('<div class="offerUnit_imgWrap_sdPlusInc_rel">' + sdPlusLogo + blazy_img + '</div>');
-        }
-        else {
-          return ('<div class="offerUnit_imgWrap_sdPlusInc_rel">' + blazy_img + '</div>');
-        }
+        return ('<div class="offerUnit_imgWrap_sdPlusInc_rel">' + blazy_img + '</div>');
       }
   }
 
@@ -209,17 +194,14 @@ const createHTML_by_categoryNames = (O_O, dataForRender) => {
   }
 
   function set_SoldOUt_ModuleX99_mod(item) {
+      //console.log('set_SoldOUt_ModuleX99_mod running ....');
+
       var soldOut_Wrap = '<div class="offerUnit_Soldout"><div class="offerUnit_Soldout_btn">SOLD OUT</div></div>';
       var soldOut_Wrap_displayOn = '<div class="offerUnit_Soldout" style="display: block;"><div class="offerUnit_Soldout_btn">SOLD OUT</div></div>';
       if(item.pogId){
-
           if(nonPromise === true){
               if(item.soldOut === true){
-                console.log('soldOut item.pogId: ', item.pogId);
-                var id_parent_offerUnit = item.pogId;
-                var dom_id_parent_offerUnit = document.getElementById(id_parent_offerUnit);
-                //console.log('dom_id_parent_offerUnit: ', dom_id_parent_offerUnit);
-
+                //console.log('soldOut item.pogId: ', item.pogId);
                 if(showSoldOut_g === true){
                     return soldOut_Wrap_displayOn;
                 }
@@ -228,7 +210,6 @@ const createHTML_by_categoryNames = (O_O, dataForRender) => {
                     return '';
                 }
               }
-
               else {
                 return '';
               }
@@ -288,7 +269,6 @@ const createHTML_by_categoryNames = (O_O, dataForRender) => {
 
       function priceOrTagline_dom(item) {
           if(!item.pogId){
-            //console.log('pogId not defined!');
             if(item.tagLine){
               return (offerUnit_priceTaglineWrap_rel + tagLineFragments + '</div>');
             }
@@ -316,12 +296,12 @@ const createHTML_by_categoryNames = (O_O, dataForRender) => {
               }
         }
 
-    if(nonPromise === true){
-        return priceOrTagline_dom(item);
-    }
-    else {
-      return _priceOrTagline_dom(item);
-    }
+      if(nonPromise === true){
+          return priceOrTagline_dom(item);
+      }
+      else {
+        return _priceOrTagline_dom(item);
+      }
   }
 
   function updateDiscount_IfMatchX(item) {
@@ -338,8 +318,6 @@ const createHTML_by_categoryNames = (O_O, dataForRender) => {
   }
 
   function setHTML_offerUnit_ratingWrap(item) {
-      //console.log('setHTML_offerUnit_ratingWrap running!');
-      //console.log('item: ', item);
       var ifRatingDefined_dom_V = ifRatingDefined_dom(item);
       var setRating_V = setRating(item);
       var rating_Wrap = '<div class="offerUnit_ratingWrap">';
@@ -348,7 +326,6 @@ const createHTML_by_categoryNames = (O_O, dataForRender) => {
 
       function ifRatingDefined_dom(item) {
           if (item.avgRating) {
-              //console.log('item.avgRating: ', item.avgRating);
               if (item._noOfReviews) {
                   ratingFragments += reviewsFragments;
               }
@@ -386,7 +363,6 @@ const createHTML_by_categoryNames = (O_O, dataForRender) => {
   }
 
   function setHTML_wrap_saveAmt(item) {
-      //console.log('item: ', item);
       var wrap_saveAmt = '<div class="wrap_saveAmt">';
       var wrap_saveAmt_closing = '</div>';
       if (item.displayPrice < item.price) {
@@ -405,6 +381,7 @@ const createHTML_by_categoryNames = (O_O, dataForRender) => {
     return '</div>';
   }
 
+  // +++++ setHTML ~ helper fns +++++ //
   function setClassName_categoryName(item) {
    if(item.categoryName){
       return item.categoryName;
@@ -424,14 +401,11 @@ const createHTML_by_categoryNames = (O_O, dataForRender) => {
   }
 
   function setID_pogId(item) {
-    //console.log('setID_pogId running');
     if(item.pogId === null || !item.pogId){
-      //console.log('pogId not found, do not run setID_pogId!');
+
       return '';
     }
     else if(item.pogId){
-      //console.log('running setID_pogId');
-      //console.log('item.pogId: ', item.pogId);
       return ('id="' + item.pogId + '"');
     }
     else {
@@ -440,13 +414,11 @@ const createHTML_by_categoryNames = (O_O, dataForRender) => {
   }
 
   function set_Rs_Price(item) {
-    //console.log('set_Rs_Price running!');
       if(!item){
         return '';
       }
       if(item.price){
-        //console.log('item.price: ', item.price);
-        if(item.price === 'null'){
+        if(item.price === 'null' || item.price == item.displayPrice){
           console.log(item.pogId, ': has price as null');
           return '';
         }
@@ -458,8 +430,26 @@ const createHTML_by_categoryNames = (O_O, dataForRender) => {
       }
   }
 
+
+  function check_showPrice(item) {
+    let price, displayPrice, content = '';
+    if(!item || !item.pogId){
+      content = '';
+    }
+    else {
+      price = item.price;
+      displayPrice = item.displayPrice;
+      if(price == displayPrice || displayPrice > price || !price){
+        content = '';
+      }
+      else {
+        content = 'Rs. ' + displayPrice;
+      }
+    }
+    return content;
+  }
+
   function set_Rs_displayPrice(item) {
-    //console.log('set_Rs_displayPrice running!');
       if(!item){
         return '';
       }
@@ -468,27 +458,26 @@ const createHTML_by_categoryNames = (O_O, dataForRender) => {
           console.log(item.pogId, ': has price as null');
           return '';
         }
-
         return  'Rs. ' + item.displayPrice;
       }
       else {
         return '';
       }
   }
-
+  // +++++ /setHTML ~ helper fns +++++ //
 
   // +++++ setHTMLContent_promises +++++ //
 
   // +++++ setHTMLContentMain +++++ //
   function setHTML_fastdom(target, htmlContent){
-  if(!target){
-    console.log('setHTML_fastdom method: target not found or undefined!');
-    return;
-  }
-  fastdom.mutate(function() {
-      target.innerHTML = htmlContent;
-    });
-}
+    if(!target){
+      console.log('setHTML_fastdom method: target not found or undefined!');
+      return;
+    }
+    fastdom.mutate(function() {
+        target.innerHTML = htmlContent;
+      });
+    }
 
   //price
   function setHTMLContent_price(DOM_append_target, item) {
@@ -502,11 +491,6 @@ const createHTML_by_categoryNames = (O_O, dataForRender) => {
         //functions
         var price_html = set_Rs_Price(item);
         var displayPrice_html = set_Rs_displayPrice(item);
-
-        //console.log('item.price: ', item.price);
-        //console.log('item.displayPrice: ', item.price);
-        //console.log('dom_offerUnit_price: ', dom_offerUnit_price);
-
 
         setHTML_fastdom(dom_offerUnit_price, price_html);
         setHTML_fastdom(dom_offerUnit_displayPrice, displayPrice_html);
@@ -652,62 +636,62 @@ const createHTML_by_categoryNames = (O_O, dataForRender) => {
 
   //ignore JSHint Error
   function setHTMLContent_soldOut(DOM_append_target, item) {
-  //console.log('showSoldOut_g inside setHTMLContent_soldOut: ', showSoldOut_g);
-  var dom_offerUnit_Soldout = DOM_append_target.querySelector('.offerUnit_Soldout');
-  var dom_offerUnit_href = DOM_append_target.querySelector('offerUnit_href');
-  var id_parent_offerUnit = item.id;
-  var dom_id_parent_offerUnit = document.getElementById(id_parent_offerUnit);
 
-  if(showSoldOut_g === true){
-    // +++++ show soldOut if soldOut +++++ //
-    if(item.soldOut === true){
-      //disable hoverStyleX99 && set soldOutX99
-      if(dom_id_parent_offerUnit){
-        dom_id_parent_offerUnit.classList.remove('hoverStyleX99');
-        dom_id_parent_offerUnit.classList.add('soldOutX99');
+    var dom_offerUnit_Soldout = DOM_append_target.querySelector('.offerUnit_Soldout');
+    var dom_offerUnit_href = DOM_append_target.querySelector('offerUnit_href');
+    var id_parent_offerUnit = item.id;
+    var dom_id_parent_offerUnit = document.getElementById(id_parent_offerUnit);
+
+    if(showSoldOut_g === true){
+      // +++++ show soldOut if soldOut +++++ //
+      if(item.soldOut === true){
+        //disable hoverStyleX99 && set soldOutX99
+        if(dom_id_parent_offerUnit){
+          dom_id_parent_offerUnit.classList.remove('hoverStyleX99');
+          dom_id_parent_offerUnit.classList.add('soldOutX99');
+        }
+        //show soldOut
+        if(dom_offerUnit_Soldout){
+            dom_offerUnit_Soldout.style.display = 'block';
+        }
+        else {
+          console.log('.offerUnit_Soldout not found for ' + item.id);
+        }
       }
-      //show soldOut
-      if(dom_offerUnit_Soldout){
-          dom_offerUnit_Soldout.style.display = 'block';
-      }
-      else {
-        console.log('.offerUnit_Soldout not found for ' + item.id);
+      // +++++ /show soldOut if soldOut +++++ //
+    }
+    else {
+      if (item.soldOut === true) {
+        // +++++ removeSoldOutParentUnit +++++ //
+        if (dom_id_parent_offerUnit) {
+          dom_id_parent_offerUnit.parentNode.removeChild(dom_id_parent_offerUnit);
+        }
+        //console.log(item.id + ' was sold out');
+        //if dod
+        if (document.getElementsByClassName('superDeals_centered')) {
+            var dom_superDeals_centered = document.getElementsByClassName('superDeals_centered');
+            for (var i = 0; i < dom_superDeals_centered.length; i++) {
+                var this_dom_superDeals_centered = dom_superDeals_centered[i];
+                //element.children.length > 0
+                if (this_dom_superDeals_centered.children.length < 1) {
+                    console.log('no child elements found!');
+                    //var parentOfThisEmptyOne = this_dom_superDeals_centered
+                    var parentOfThisEmptyOne = getClick_targetClass_elem(this_dom_superDeals_centered, 'dodSuperDealUnit_ev');
+                    //console.log('parentOfThisEmptyOne was found and removed: ', parentOfThisEmptyOne);
+                    parentOfThisEmptyOne.parentNode.removeChild(parentOfThisEmptyOne);
+                    if (!parentOfThisEmptyOne || parentOfThisEmptyOne === null) {
+                        console.log('parentOfThisEmptyOne not found: ', parentOfThisEmptyOne);
+                        return;
+                    }
+                }
+            }
+        }
+        // +++++ /removeSoldOutParentUnit +++++ //
       }
     }
-    // +++++ /show soldOut if soldOut +++++ //
-  }
-  else {
-    if (item.soldOut === true) {
-      // +++++ removeSoldOutParentUnit +++++ //
-      if (dom_id_parent_offerUnit) {
-        dom_id_parent_offerUnit.parentNode.removeChild(dom_id_parent_offerUnit);
-      }
-      //console.log(item.id + ' was sold out');
-      //if dod
-      if (document.getElementsByClassName('superDeals_centered')) {
-          var dom_superDeals_centered = document.getElementsByClassName('superDeals_centered');
-          for (var i = 0; i < dom_superDeals_centered.length; i++) {
-              var this_dom_superDeals_centered = dom_superDeals_centered[i];
-              //element.children.length > 0
-              if (this_dom_superDeals_centered.children.length < 1) {
-                  console.log('no child elements found!');
-                  //var parentOfThisEmptyOne = this_dom_superDeals_centered
-                  var parentOfThisEmptyOne = getClick_targetClass_elem(this_dom_superDeals_centered, 'dodSuperDealUnit_ev');
-                  //console.log('parentOfThisEmptyOne was found and removed: ', parentOfThisEmptyOne);
-                  parentOfThisEmptyOne.parentNode.removeChild(parentOfThisEmptyOne);
-                  if (!parentOfThisEmptyOne || parentOfThisEmptyOne === null) {
-                      console.log('parentOfThisEmptyOne not found: ', parentOfThisEmptyOne);
-                      return;
-                  }
-              }
-          }
-      }
-      // +++++ /removeSoldOutParentUnit +++++ //
-    }
-  }
 
 
-}
+  }
 
   function setHTMLContentAll_fastdomPromised(append_target, item) {
     //console.log('setHTMLContentAll_fastdomPromised running!');
