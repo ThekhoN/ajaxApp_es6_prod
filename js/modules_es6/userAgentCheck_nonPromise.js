@@ -5,7 +5,7 @@ const isUCBrowser = navigator.userAgent.indexOf('UCBrowser') > 0;
 
 
 const userAgentCheck_nonPromise = () => {
-  if(isUCBrowser || (navigator.userAgent.indexOf('MSIE') > 0)){
+  if(isUCBrowser){
       console.log(`y u not support promises O_o`);
       return true;
   }
